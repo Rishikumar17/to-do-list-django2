@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <style>
+        .deleteBtn {
+            width: 10%;
+            float: right;
+            margin-top: -34px;
+            padding-top: 3px;
+            height: 41px;
+            background-color: #f9f9f9;
+            font-size: 25px;
+        }
+
+        ul li>input.deleteBtn:nth-child(odd) {
+            background-color: black !important;
+        }
+    </style>
+</head>
+
+<body style="background-color: brown">
+    <div class="row">
+        <div class="col-lg-offset-3 col-lg-6">
+            <div id="myDIV" class="header" style="margin-top: 12vh">
+                <h2 style="margin:5px;text-transform: uppercase">My To Do List</h2>
+                <form action="/addToDo/" method="POST"> {% csrf_token %}
+                    <input type="text" id="myInput" name="activity" placeholder="Title...">
+                    <!-- <span onclick="newElement()" class="addBtn">Add</span> -->
+                    <input type="submit" value="Add" class="addBtn">
+                </form>
+
+            </div>
+            <ul id="myUL">
+                {% for item in my_item %}
+                <li>{{item.activity}}
+                    <form action="/deleteItem/{{item.id}}/" method="POST">{% csrf_token %}
+                        <input type="submit" class="deleteBtn" value="×">
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+    <!-- Custom JavaScript -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+
+</body>
+
+</html>
